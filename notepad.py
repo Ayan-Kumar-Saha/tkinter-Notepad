@@ -131,9 +131,9 @@ class Notepad:
 
 
     def send_feedback(self):
-        answer = tmsg.askyesno('Feedback', 'Do you like my product?')
+        answer = tmsg.askyesno('Feedback', 'Do you like my project?')
         if answer == True:
-            if tmsg.askyesno('Give Rating', 'Kindly give a star to my GitHub repository?'):
+            if tmsg.askyesno('Give Rating', 'Would you take a moment to give a star to my GitHub repository?'):
                 webbrowser.open_new('https://github.com/Ayan-Kumar-Saha/tkinter-Notepad')
             else:
                 tmsg.showinfo(message = 'Thank you for your feedback!')
@@ -143,7 +143,7 @@ class Notepad:
 
 
     def view_help(self):
-        answer = tmsg.askokcancel('Help','Click yes to go to official README file')
+        answer = tmsg.askokcancel('Help','Click Ok to read the README file')
         if answer == True:
             webbrowser.open_new('https://github.com/Ayan-Kumar-Saha/tkinter-Notepad/blob/master/README.md')
 
