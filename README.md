@@ -11,7 +11,7 @@ A replication of windows notepad using tkinter python GUI library
 
 * [Getting started](#getting-started)
 
-* [Run E-books Downloader](#run-notepad)
+* [Run Notepad](#run-notepad)
 
 * [Build with](#build-with)
 
