@@ -43,13 +43,13 @@ Run the notepad using,
 ### Linux and macOS
 
 ```
-~$ python3 download_ebooks.py
+~$ python3 notepad.py
 ```
 
 ### Windows
 
 ```
-~$ python download_ebooks.py
+~$ python notepad.py
 ```
 
 ## Build with
