@@ -2,6 +2,7 @@ from tkinter import *
 import os
 import  tkinter.messagebox as tmsg
 from tkinter.filedialog import askopenfilename, asksaveasfilename
+import webbrowser
 
 class Notepad:
 
@@ -97,6 +98,7 @@ class Notepad:
             writer.write(self.text_area.get(1.0, END))
             writer.close()
 
+
     def save_as(self):
         self.file = asksaveasfilename(initialfile = 'Untitled.txt', defaultextension = '.txt', filetypes = [('All Files', '*.*'), ('Text Documents', '*.txt')])
 
@@ -129,11 +131,22 @@ class Notepad:
 
 
     def send_feedback(self):
-        pass
+        answer = tmsg.askyesno('Feedback', 'Do you like my product?')
+        if answer == True:
+            if tmsg.askyesno('Give Rating', 'Kindly give a star to my GitHub repository?'):
+                webbrowser.open_new('https://github.com/Ayan-Kumar-Saha/tkinter-Notepad')
+            else:
+                tmsg.showinfo(message = 'Thank you for your feedback!')
+
+        else:
+            tmsg.showinfo(message = 'Thank you for your feedback!')
 
 
     def view_help(self):
-        pass
+        answer = tmsg.askokcancel('Help','Click yes to go to official README file')
+        if answer == True:
+            webbrowser.open_new('https://github.com/Ayan-Kumar-Saha/tkinter-Notepad/blob/master/README.md')
+
 
     def configure(self):
         self.create_menu_bar()
