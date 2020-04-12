@@ -1,3 +1,11 @@
+# TODO: 
+# Add Key bindings + Keys shortcuts to the menu
+# Add new window tab
+# Add word wrap
+# Add font customization
+# Look for zoom
+# Status bar
+
 from tkinter import *
 import os
 import  tkinter.messagebox as tmsg
@@ -11,18 +19,21 @@ class Notepad:
         self.height = height
         self.file = None
 
+        # main window
         self.root = Tk()
         self.root.geometry(f'{self.width}x{self.height}')
         self.root.title('Untitled - Notepad')
-
+        
         # notepad icon
         img = PhotoImage(file = 'notepad.gif')
         self.root.tk.call('wm', 'iconphoto', self.root._w, img)
 
-    def create_menu_bar(self):
-        # menu bar
+        # menu bar and text area
         self.menu_bar = Menu(self.root)
+        self.text_area = Text(self.root, font = "Lucida 13", undo = True)
 
+    def create_menu_bar(self):
+        
         # File Submenu
         self.file_submenu = Menu(self.menu_bar, tearoff = 0)
         self.file_submenu.add_command(label = 'New', command = self.new)
@@ -36,9 +47,14 @@ class Notepad:
 
         # Edit menu
         self.edit_submenu = Menu(self.menu_bar, tearoff = 0)
+        self.edit_submenu.add_command(label = 'Undo', command = self.text_area.edit_undo)
+        self.edit_submenu.add_command(label = 'Redo', command = self.text_area.edit_redo)
+        self.edit_submenu.add_separator()
         self.edit_submenu.add_command(label = 'Cut', command = self.cut)
         self.edit_submenu.add_command(label = 'Copy', command = self.copy)
         self.edit_submenu.add_command(label = 'Paste', command = self.paste)
+        self.edit_submenu.add_separator()
+        self.edit_submenu.add_command(label = 'Delete', command = self.delete)
         self.menu_bar.add_cascade(label = 'Edit', menu = self.edit_submenu)
 
         # Help menu
@@ -53,8 +69,7 @@ class Notepad:
 
 
     def create_text_area(self):
-        # text area
-        self.text_area = Text(self.root, font = "Lucida 13")
+        # text area 
         self.text_area.pack(expand = True, fill = BOTH)
 
         # scroll bar
@@ -87,6 +102,7 @@ class Notepad:
 
                 else:
                     pass
+
             else:
                 self.file = None
                 self.root.title('Untitled - Notepad')
@@ -105,12 +121,13 @@ class Notepad:
 
                 else:
                     pass
+
             else:
                 self.file = None
                 self.root.title('Untitled - Notepad')
                 self.text_area.delete(1.0, 'end-1c')
+        
 
-    
     def open_file(self):
         self.file = askopenfilename(defaultextension = '.txt', filetypes = [('All Files', '*.*'), ('Text Documents', '*.txt')])
 
@@ -157,6 +174,7 @@ class Notepad:
     def close(self):
         self.root.destroy()
 
+
     def cut(self):
         self.text_area.event_generate("<<Cut>>")
 
@@ -167,6 +185,10 @@ class Notepad:
 
     def paste(self):
         self.text_area.event_generate(('<<Paste>>'))
+
+    
+    def delete(self):
+        self.text_area.event_generate(('<Delete>'))
 
 
     def about_notepad(self):
@@ -196,6 +218,7 @@ class Notepad:
     
     def run(self):
         self.root.mainloop()
+
 
 notepad = Notepad(700, 500)
 notepad.configure()
