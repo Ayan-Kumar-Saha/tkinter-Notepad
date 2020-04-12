@@ -31,7 +31,7 @@ class Notepad:
         self.file_submenu.add_command(label = 'Save', command = self.save)
         self.file_submenu.add_command(label = 'Save As...', command = self.save_as)
         self.file_submenu.add_separator()
-        self.file_submenu.add_command(label = 'Exit', command = quit)
+        self.file_submenu.add_command(label = 'Exit', command = self.close)
         self.menu_bar.add_cascade(label = 'File', menu = self.file_submenu)
 
         # Edit menu
@@ -66,9 +66,49 @@ class Notepad:
 
     
     def new(self):
-        self.file = None
-        self.root.title('Untitled - Notepad')
-        self.text_area.delete(1.0, END)
+        text_area_content = self.text_area.get(1.0, 'end-1c')
+        print(text_area_content)
+
+        if self.file != None:
+            reader = open(self.file, 'r')
+            file_content = reader.read()
+
+            if file_content != text_area_content:
+                print(file_content)
+
+                answer = tmsg.askyesnocancel('Notepad', f'Do you want to save changes to {self.file}?')
+                if answer == True:
+                    self.save()
+
+                elif answer == False:
+                    self.file = None
+                    self.root.title('Untitled - Notepad')
+                    self.text_area.delete(1.0, 'end-1c')
+
+                else:
+                    pass
+            else:
+                self.file = None
+                self.root.title('Untitled - Notepad')
+                self.text_area.delete(1.0, 'end-1c')
+
+        else:
+            if len(text_area_content) > 0:
+                answer = tmsg.askyesnocancel('Notepad', 'Do you want to save changes to Untitlied?')
+                if answer == True:
+                    self.save_as()
+
+                elif answer == False:
+                    self.file = None
+                    self.root.title('Untitled - Notepad')
+                    self.text_area.delete(1.0, 'end-1c')
+
+                else:
+                    pass
+            else:
+                self.file = None
+                self.root.title('Untitled - Notepad')
+                self.text_area.delete(1.0, 'end-1c')
 
     
     def open_file(self):
@@ -81,7 +121,7 @@ class Notepad:
         else:
             # file chosen
             self.root.title(os.path.basename(self.file) + ' - Notepad')
-            self.text_area.delete(1.0, END)
+            self.text_area.delete(1.0, 'end-1c')
             reader = open(self.file, 'r')
             self.text_area.insert(1.0, reader.read())
             reader.close()
@@ -95,7 +135,7 @@ class Notepad:
         else:
             # writing and saving to an existing file
             writer = open(self.file, 'w')
-            writer.write(self.text_area.get(1.0, END))
+            writer.write(self.text_area.get(1.0, 'end-1c'))
             writer.close()
 
 
@@ -110,9 +150,12 @@ class Notepad:
             # file choosen
             self.root.title(os.path.basename(self.file) + ' - Notepad')
             writer = open(self.file, 'w')
-            writer.write(self.text_area.get(1.0, END))
+            writer.write(self.text_area.get(1.0, 'end-1c'))
             writer.close()
 
+    
+    def close(self):
+        self.root.destroy()
 
     def cut(self):
         self.text_area.event_generate("<<Cut>>")
@@ -143,9 +186,7 @@ class Notepad:
 
 
     def view_help(self):
-        answer = tmsg.askokcancel('Help','Click Ok to read the README file')
-        if answer == True:
-            webbrowser.open_new('https://github.com/Ayan-Kumar-Saha/tkinter-Notepad/blob/master/README.md')
+        webbrowser.open_new('https://github.com/Ayan-Kumar-Saha/tkinter-Notepad/blob/master/README.md')
 
 
     def configure(self):
