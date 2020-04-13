@@ -82,14 +82,12 @@ class Notepad:
     
     def new(self):
         text_area_content = self.text_area.get(1.0, 'end-1c')
-        print(text_area_content)
 
         if self.file != None:
             reader = open(self.file, 'r')
             file_content = reader.read()
 
             if file_content != text_area_content:
-                print(file_content)
 
                 answer = tmsg.askyesnocancel('Notepad', f'Do you want to save changes to {self.file}?')
                 if answer == True:
@@ -172,7 +170,42 @@ class Notepad:
 
     
     def close(self):
-        self.root.destroy()
+        text_area_content = self.text_area.get(1.0, 'end-1c')
+
+        if self.file == None:
+            if len(text_area_content) > 0:
+                answer = tmsg.askyesnocancel('Notepad', f'Do you want to save changes to Untitled?')
+                if answer == True:
+                    self.save_as()
+
+                elif answer == False:
+                    self.root.destroy()
+
+                else:
+                    pass
+
+            else:
+                self.root.destroy()
+                
+        else:
+            reader = open(self.file, 'r')
+            file_content = reader.read()
+
+            if file_content != text_area_content:
+
+                answer = tmsg.askyesnocancel('Notepad', f'Do you want to save changes to {self.file}?')
+                if answer == True:
+                    self.save()
+
+                elif answer == False:
+                    self.root.destroy()
+
+                else:
+                    pass
+
+            else:
+                self.root.destroy()
+
 
 
     def cut(self):
