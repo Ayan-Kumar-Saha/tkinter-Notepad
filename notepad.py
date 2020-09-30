@@ -31,7 +31,15 @@ class Notepad:
         # menu bar and text area
         self.menu_bar = Menu(self.root)
         self.text_area = Text(self.root, font = "Lucida 13", undo = True)
-
+   
+    
+    #creating status bar at the bottom
+    def status_bar(self):
+        self.statusvar = StringVar()
+        self.statusvar.set("Created By A")
+        self.sbar = Label(self.root,textvariable=statusvar,relief=SUNKEN,font=("cursive",10,"bold"),anchor="e",background="darkolivegreen")
+        self.sbar.pack(side=BOTTOM,fill=X)
+        
     def create_menu_bar(self):
         
         # File Submenu
@@ -53,6 +61,7 @@ class Notepad:
         self.edit_submenu.add_command(label = 'Cut', command = self.cut)
         self.edit_submenu.add_command(label = 'Copy', command = self.copy)
         self.edit_submenu.add_command(label = 'Paste', command = self.paste)
+        self.edit_submenu.add_command(label="Select All", command=self.selectall)
         self.edit_submenu.add_separator()
         self.edit_submenu.add_command(label = 'Delete', command = self.delete)
         self.menu_bar.add_cascade(label = 'Edit', menu = self.edit_submenu)
@@ -79,7 +88,12 @@ class Notepad:
         
         self.text_area.config(yscrollcommand = self.scroll_bar.set)
 
-    
+    def selectall(self):
+        self.text.tag_add(SEL,"1.0",END)
+        self.text.mark_set(INSERT,"1.0")
+        self.text.see(INSERT)
+        return 'break'
+
     def new(self):
         text_area_content = self.text_area.get(1.0, 'end-1c')
 
